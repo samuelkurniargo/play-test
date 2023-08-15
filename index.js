@@ -3,8 +3,8 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 
 import videoRouter from "./src/routes/videosRouter.js";
 import productRouter from "./src/routes/productsRouter.js";
@@ -12,7 +12,7 @@ import commentRouter from "./src/routes/commentsRouter.js";
 
 const app = express();
 const mongoString = process.env.DATABASE_URL;
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3080;
 
 // const connectDB = async () => {
 //   try {
@@ -49,15 +49,15 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "./frontend/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname , "./frontend/dist/index.html"), (err) => {
+  res.sendFile(path.join(__dirname, "./frontend/dist/index.html"), (err) => {
     res.status(500).send(err);
   });
 });
 
 // connectDB().then(() => {
-  app.listen(PORT, () => {
-      console.log(`listening from requests ${PORT}`);
-  })
+app.listen(PORT, () => {
+  console.log(`listening from requests ${PORT}`);
+});
 // })
 
 // app.listen(PORT, () => {
