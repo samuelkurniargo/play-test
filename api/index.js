@@ -12,17 +12,28 @@ import commentRouter from "./src/routes/commentsRouter.js";
 
 const app = express();
 const mongoString = process.env.DATABASE_URL;
+const PORT = process.env.PORT || 3000
 
-mongoose.connect(mongoString);
-const database = mongoose.connection;
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 
-database.on("error", (error) => {
-  console.log(error);
-});
+// mongoose.connect(mongoString);
+// const database = mongoose.connection;
 
-database.once("connected", () => {
-  console.log("Database connected");
-});
+// database.on("error", (error) => {
+//   console.log(error);
+// });
+
+// database.once("connected", () => {
+//   console.log("Database connected");
+// });
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -42,6 +53,12 @@ app.get("*", (req, res) => {
     res.status(500).send(err);
   });
 });
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+      console.log("listening for requests");
+  })
+})
 
 app.listen(3000, () => {
   console.log(`Server running on port ${3000}`);
