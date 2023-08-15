@@ -1,5 +1,5 @@
 import express from "express";
-import "dotenv/config";
+
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -9,6 +9,12 @@ import { fileURLToPath } from "url";
 import videoRouter from "./src/routes/videosRouter.js";
 import productRouter from "./src/routes/productsRouter.js";
 import commentRouter from "./src/routes/commentsRouter.js";
+if (process.env.ENVIRONMENT !== "production") {
+  require("dotenv").config();
+}
+
+console.log("environment    ", process.env.ENVIRONMENT);
+console.log("PORT    ", process.env.PORT);
 
 const app = express();
 const mongoString = process.env.DATABASE_URL;
@@ -39,16 +45,16 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use("/videos", videoRouter);
-app.use("/products", productRouter);
-app.use("/comments", commentRouter);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, "./frontend/dist")));
 
-app.get("*", (req, res) => {
+app.use("/videos", videoRouter);
+app.use("/products", productRouter);
+app.use("/comments", commentRouter);
+
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./frontend/dist/index.html"), (err) => {
     res.status(500).send(err);
   });
