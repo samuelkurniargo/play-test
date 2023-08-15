@@ -14,15 +14,15 @@ const app = express();
 const mongoString = process.env.DATABASE_URL;
 const PORT = process.env.PORT || 3000
 
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-}
+// const connectDB = async () => {
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_URI);
+//     console.log(`MongoDB Connected: ${conn.connection.host}`);
+//   } catch (error) {
+//     console.log(error);
+//     process.exit(1);
+//   }
+// }
 
 // mongoose.connect(mongoString);
 // const database = mongoose.connection;
@@ -46,19 +46,19 @@ app.use("/comments", commentRouter);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "./frontend/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname , "../frontend/dist/index.html"), (err) => {
+  res.sendFile(path.join(__dirname , "./frontend/dist/index.html"), (err) => {
     res.status(500).send(err);
   });
 });
 
-connectDB().then(() => {
+// connectDB().then(() => {
   app.listen(PORT, () => {
-      console.log("listening for requests");
+      console.log(`listening from requests ${PORT}`);
   })
-})
+// })
 
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
