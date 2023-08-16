@@ -20,15 +20,15 @@ const app = express();
 const mongoString = process.env.DATABASE_URL;
 const PORT = process.env.PORT || 3080;
 
-// const connectDB = async () => {
-//   try {
-//     const conn = await mongoose.connect(process.env.MONGO_URI);
-//     console.log(`MongoDB Connected: ${conn.connection.host}`);
-//   } catch (error) {
-//     console.log(error);
-//     process.exit(1);
-//   }
-// }
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
 
 // mongoose.connect(mongoString);
 // const database = mongoose.connection;
@@ -60,11 +60,11 @@ app.get("/", (req, res) => {
   });
 });
 
-// connectDB().then(() => {
+connectDB().then(() => {
 app.listen(PORT, () => {
   console.log(`listening from requests ${PORT}`);
 });
-// })
+})
 
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
