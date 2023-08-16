@@ -9,9 +9,9 @@ import { fileURLToPath } from "url";
 import videoRouter from "./src/routes/videosRouter.js";
 import productRouter from "./src/routes/productsRouter.js";
 import commentRouter from "./src/routes/commentsRouter.js";
-if (process.env.ENVIRONMENT !== "production") {
-  require("dotenv").config();
-}
+// if (process.env.ENVIRONMENT !== "production") {
+//   require("dotenv").config();
+// }
 
 console.log("environment    ", process.env.ENVIRONMENT);
 console.log("PORT    ", process.env.PORT);
